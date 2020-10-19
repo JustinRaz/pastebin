@@ -2,6 +2,7 @@ const express = require("express");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const session = require("express-session");
+const { render } = require("ejs");
 const urlencodedParser = bodyParser.urlencoded({extended: false});
 const app = express();
 app.set("view engine", "ejs");
@@ -14,6 +15,11 @@ const connection =  mysql.createConnection({
     password: "",
     database: "pastebin"
 });
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
+
 
 //P.S. You may use and edit these functions. They are here for a reason :)
 function generateUUID(){
@@ -47,14 +53,51 @@ app.use(session({
 //Good luck!
 
 app.get("/", (req, res)=>{
-    res.render('login');
+    if(req.session.current_user){
+        res.redirect('/notes');
+    }else{
+        res.redirect('/')
+    }
 })
 
-app.post("/login", (req, res)=>{
-    if(chech)
+app.post('/login', (req, res)=>{
+    console.log(req.body);
+    connection.query(`SELECT * FROM accounts WHERE username = '`+req.body.username+`'`, (err, result)=>{
+
+        if (err) throw err
+
+        if (result.length > 0){
+
+            if(result[0].password == req.body.password){
+                req.session.current_user = result[0]
+            }else{
+                res.session.error = "Account Not Found";
+            }
+            res.redirect('/')
+
+        }else{
+            res.redirect('/')
+        }
+    })
 })
 
+app.get("/notes", (req, res)=>{
+    if(req.session.current_user){
+        res.render('notes');
+    }else{
+        res.session.error = "No Account Logged In"
+        res.redirect('/')
+    }
+})
 
+app.get("/create", (req, res)=>{
+    if(requestAnimationFrame.session.current_user){
+        res.render('editnotes');
+    }else{
+        res.session.error = "No Account Logged In"
+        res.redirect('/')
+    }
+}) 
 
 app.listen(3000);
 
