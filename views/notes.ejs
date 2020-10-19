@@ -138,9 +138,15 @@
                   </thead>
                   <% if(notes.length > 0){%>
                     <tbody>
+                    <% notes.forEach((note)=>{ %>
                       <tr>
-                        <td><a href="/open?id=123">Notes # 1</a></td>
-                        <td>September 11, 2001</td>
+                        <td>
+                          <a href="/open?id=123"><%= note.title %></a>
+                          <% if(notes.updated !== undefined){%>
+                            <p>Update: <%= note.updated %></p>
+                          <%}%>
+                        </td>
+                        <td><%= note.created %></td>
                         <td>
                           <form action="/update?uuid=1234" method="post">
                             <button type="submit" name="uuid" value="insert_uuid_here" class="btn btn-secondary">Update</button>
@@ -149,12 +155,13 @@
                             <button type="submit" name="uuid" value="insert_uuid_here" class="btn btn-danger">Delete</button>
                           </form>
                         </td>
-                      </tr>
-                    </tbody>
+                      </tr>                    
+                    <%})%>
                   
-                  <%}else{%>
-                    No N
-                  <%}%>
+                    </tbody>
+                  <% }else{%>
+                    <p>No Notes Found</p>
+                  <% }%>
               </table>
             </div>
           </div>
@@ -214,8 +221,8 @@
   <script src="js/sb-admin-2.js"></script>
 
   <!-- Page level plugins -->
-  <!-- <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>

@@ -118,6 +118,8 @@ app.post("/create", (req, res)=>{
     }
 }) 
 
+app.get
+
 app.listen(3000);
 
 
