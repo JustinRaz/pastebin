@@ -56,7 +56,7 @@ app.get("/", (req, res)=>{
     if(req.session.current_user){
         res.redirect('/notes');
     }else{
-        res.redirect('/')
+        res.render('login')
     }
 })
 
@@ -71,7 +71,7 @@ app.post('/login', (req, res)=>{
             if(result[0].password == req.body.password){
                 req.session.current_user = result[0]
             }else{
-                res.session.error = "Account Not Found";
+                req.session.error = "Account Not Found";
             }
             res.redirect('/')
 
@@ -83,18 +83,37 @@ app.post('/login', (req, res)=>{
 
 app.get("/notes", (req, res)=>{
     if(req.session.current_user){
-        res.render('notes');
+        connection.query(`SELECT * FROM notes WHERE account_uuid = '`+req.session.current_user.id+`'`, (err, result)=>{
+            let notes = [];
+
+            result.forEach(element => {
+                notes.push(element);
+            });
+            res.render('notes', {notes: notes});
+        })
     }else{
-        res.session.error = "No Account Logged In"
+        req.session.error = "No Account Logged In"
         res.redirect('/')
     }
 })
 
 app.get("/create", (req, res)=>{
-    if(requestAnimationFrame.session.current_user){
-        res.render('editnotes');
+    if(req.session.current_user){
+        res.render('createnotes');
     }else{
-        res.session.error = "No Account Logged In"
+        req.session.error = "No Account Logged In"
+        res.redirect('/')
+    }
+}) 
+
+app.post("/create", (req, res)=>{
+    if(req.session.current_user){
+        connection.query(`INSERT INTO notes(account_uuid, title, content, status, created) VALUES('`+req.session.current_user.id+`', '`+req.body.title+`', '`+req.body.content+`', '`+"none"+`', now() )`, (err, result)=>{
+            if (err) throw err
+            res.redirect('/notes');
+        })
+    }else{
+        req.session.error = "No Account Logged In"
         res.redirect('/')
     }
 }) 

@@ -120,44 +120,17 @@
         <!-- End of Topbar -->
         <!-- Begin Page Content -->
         <div class="container-fluid">
-          <!-- DataTales Example -->
-          <div class=" card shadow mb-4 col-lg-12 float-left">
-            <div class="card-header ">
-              <h6 class="m-0 font-weight-bold">Content Table</h6>
+            <div class="card mb-4">
+                <form action="/create" method="post">
+                    <div class="card-header">
+                        <input name="title" value="Title Goes Here">
+                    </div>
+                    <div class="card-body">
+                        <input name="content" value="Content goes here">
+                    </div>
+                    <button type="submit" class="btn btn-success">Add</button>
+                </form>
             </div>
-            
-            <a href="/create" type="submit" name="uuid" value="insert_uuid_here" class="btn btn-primary m-2" style="color:white">Add</a>
-            <div class="card-body">
-              <table class="table table-bordered" id="transactionTable" cellspacing="0">
-                  <thead>
-                      <tr>
-                          <th>Title</th>
-                          <th>Created</th>
-                          <th>Options</th>
-                      </tr>
-                  </thead>
-                  <% if(notes.length > 0){%>
-                    <tbody>
-                      <tr>
-                        <td><a href="/open?id=123">Notes # 1</a></td>
-                        <td>September 11, 2001</td>
-                        <td>
-                          <form action="/update?uuid=1234" method="post">
-                            <button type="submit" name="uuid" value="insert_uuid_here" class="btn btn-secondary">Update</button>
-                          </form>
-                          <form action="/delete?uuid=1234" method="post">
-                            <button type="submit" name="uuid" value="insert_uuid_here" class="btn btn-danger">Delete</button>
-                          </form>
-                        </td>
-                      </tr>
-                    </tbody>
-                  
-                  <%}else{%>
-                    No N
-                  <%}%>
-              </table>
-            </div>
-          </div>
         </div>
         <!-- /.container-fluid -->
 
@@ -214,8 +187,8 @@
   <script src="js/sb-admin-2.js"></script>
 
   <!-- Page level plugins -->
-  <!-- <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
+  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
   <!-- Page level custom scripts -->
   <script src="js/demo/datatables-demo.js"></script>
