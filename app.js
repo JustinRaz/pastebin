@@ -46,7 +46,13 @@ app.use(session({
 //write you code here
 //Good luck!
 
+app.get("/", (req, res)=>{
+    res.render('login');
+})
 
+app.post("/login", (req, res)=>{
+    if(chech)
+})
 
 
 
